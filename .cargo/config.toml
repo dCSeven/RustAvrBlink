@@ -1,0 +1,19 @@
+[target.avr-unknown-gnu-attiny25]
+rustflags = ["-C", "link-arg=-Tlink.ld"]
+
+[build]
+#target = ["avr-unknown-gnu-attiny25"]
+target = ["avr-attiny25.json"]
+#rustflags = ["-Zbuild-std"]
+#rustflags = ["-Z build-std=core --target avr-atmega328p.json --release"]
+#TODO should usually be done via target.<tripple>.rustflags and target.<cfg>.rustflags
+
+[env]
+AVR_CPU_FREQUENCY_HZ="4000000"
+
+CC="C:\\Users\\User\\CLionProjects\\Rust\\avr8-gnu-toolchain-win32_x86_64\\bin\\avr-gcc.exe"
+
+#[target.avr-unknown-gnu-attiny25]
+#[target.'cfg(all(target_arch = "avr", target_os = "none"))']
+[target.'cfg(all(target_arch = "avr"))']
+linker="C:\\Users\\User\\CLionProjects\\Rust\\avr8-gnu-toolchain-win32_x86_64\\bin\\avr-gcc.exe"
