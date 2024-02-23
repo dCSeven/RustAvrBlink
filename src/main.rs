@@ -1,21 +1,33 @@
 #![no_std]
 #![no_main]
+#![feature(abi_avr_interrupt)]
+#![feature(lang_items)]
 
 use core::mem::zeroed;
 use core::panic::PanicInfo;
 use core::ptr::{read, write_volatile};
-//use avrd::current::DDRB;
+//use attiny_hal::pac::PORTB;
+use avrd::current::DDRB;
+use avrd::current::PORTB;
 
-use ruduino::cores::current::PORTB;
-use ruduino::prelude::without_interrupts;
+unsafe fn init() {
+    // pins
+    write_volatile(PORTB, 0x00);
+    write_volatile(DDRB, 0xFF);
+
+    // timers, adc, twi/spi
+    // interrupts
+
+}
 
 #[no_mangle]
 pub fn main() -> ! {
+    unsafe { init(); }
    // without_interrupts(unsafe { write_volatile(DDRB, 0xFF) });
     loop {};
 }
 
-#[link_section = ".vector.reset_vector"]
+#[link_section = "_vectors.reset_vector"]
 #[no_mangle]
 pub static __RESET_VECTOR: fn() -> ! = reset_handler;
 
@@ -54,10 +66,14 @@ pub fn reset_handler() -> ! {
     main();
 }
 
-/*
+
 /// This function is called on panic.
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     reset_handler(); // TODO log some error / do something different ?
 }
-*/
+
+#[lang="eh_personality"]
+extern fn eh_personality() -> !{
+    reset_handler();
+}

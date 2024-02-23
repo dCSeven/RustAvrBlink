@@ -1,15 +1,26 @@
+#cargo-feature = ["profile-rustflags"]
+
 [package]
 name = "TempLoggerRust"
 version = "0.1.0"
 authors = ["Florian Dopona <dopoflor@gmail.com"]
 edition = '2018'
-build = "build.rs"
+#build = "build.rs"
 
 [dependencies]
-ruduino = {  git = "https://github.com/avr-rust/ruduino", branch = "master" }
-#avrd = "1.0.0"
+#ruduino = {  git = "https://github.com/avr-rust/ruduino", branch = "master"}
+avrd = "1.0.0"
+attiny-hal = { path = "lib/avr-hal/mcu/attiny-hal", features = ["attiny85"], default-features = false }
 
 #avr-libc = { version = "0.2.2" }
 
+#[profile.dev.package.ruduino]
+#rustflags = ["--release"]
+
+
+[profile.dev]
+opt-level = "s"
+
 [profile.release]
 lto = true
+opt-level = "s"

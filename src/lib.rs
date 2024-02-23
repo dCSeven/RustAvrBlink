@@ -7,3 +7,10 @@ pub fn write_to_pin (val: u8) {
 
    }
 }
+
+fn sei() {
+   todo!()
+}
+
+fn cli() {
+}
